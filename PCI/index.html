@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI System with Dynamic Table</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pavement Condition Index (PCI) - Flexible Pavement (Asphalt concrete)</h2>
+
+    <form id="pciForm">
+        <!-- Section 1: User Input (Network, Branch, Survey Information, etc.) -->
+        <h3>A. Survey Information</h3>
+        <table id="surveyInfoTable">
+            <tr>
+                <th>Description</th>
+                <th>Name</th>
+                <th>Area (sq.m)</th>
+            </tr>
+            <tr>
+                <td>Network</td>
+                <td><input type="text" id="networkName" placeholder="Enter network name"></td>
+                <td><input type="text" id="networkArea" placeholder="Enter area"></td>
+            </tr>
+            <tr>
+                <td>Branch</td>
+                <td><input type="text" id="branchName" placeholder="Enter branch name"></td>
+                <td><input type="text" id="branchArea" placeholder="Enter area"></td>
+            </tr>
+            <tr>
+                <td>Section</td>
+                <td><input type="text" id="sectionName" placeholder="Enter section name"></td>
+                <td><input type="text" id="sectionArea" placeholder="Enter area"></td>
+            </tr>
+            <tr>
+                <td>Unit</td>
+                <td><input type="text" id="unitName" placeholder="Enter unit name"></td>
+                <td><input type="text" id="unitArea" placeholder="Enter area"></td>
+            </tr>
+        </table>
+
+        <div class="survey-meta">
+            <label for="surveyedBy">Surveyed by:</label>
+            <input type="text" id="surveyedBy" placeholder="Enter surveyor name">
+            
+            <label for="surveyDate">Survey Date:</label>
+            <input type="date" id="surveyDate">
+            
+            <label for="surveyTime">Survey Time:</label>
+            <input type="time" id="surveyTime">
+        </div>
+
+        <!-- Section 2: Excel-Type Sheet Starts Here -->
+        <h3>B. Flexible Pavement Condition Data Sheet</h3>
+
+        <table id="dynamicTable">
+            <thead>
+                <tr>
+                    <th rowspan="2">Distress Type</th>
+                    <th rowspan="2">Severity</th>
+                    <th colspan="10">Quantity (sq.m)</th>
+                    <th rowspan="2">Total</th>
+                    <th rowspan="2">Density %</th>
+                    <th rowspan="2">Deduct Value</th>
+                </tr>
+                <tr>
+                    <th>Q1</th>
+                    <th>Q2</th>
+                    <th>Q3</th>
+                    <th>Q4</th>
+                    <th>Q5</th>
+                    <th>Q6</th>
+                    <th>Q7</th>
+                    <th>Q8</th>
+                    <th>Q9</th>
+                    <th>Q10</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+
+        <!-- Buttons to add/remove rows -->
+        <button type="button" onclick="addRow()">Add Row</button>
+        <button type="button" onclick="removeRow()">Remove Row</button>
+        <button type="button" onclick="calculateTotal()">Calculate Total</button>
+        <button type="button" onclick="calculate_DV()">Calculate DV</button>
+        <button type="button" onclick="Calculate_Maximum_CDV()">Calculate PCI</button>
+
+        <!-- Section 3: Maximum allowable number of distress table starts here -->
+        <h3>C. Maximum allowable number of distresses (m)</h3>
+
+        <table id="dynamicTablem">
+            <thead>
+                <tr>
+                    <th rowspan="1">Highest Deduct Value (HDV)</th>
+                    <th rowspan="1">m = 1 + (9/95)*(100 - HDV) &le; 10</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+
+        <!-- Section 4: CDV table starts here -->
+        <h3>D. Determine maximum Corrected Deduct Value (Max CDV)</h3>
+
+        <table id="dynamicTableCDV">
+            <thead>
+                <tr>
+                    <th rowspan="1">#</th>
+                    <th colspan="10">Deduct Values</th>
+                    <th rowspan="1">Total</th>
+                    <th rowspan="1">q</th>
+                    <th rowspan="1">CDV</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+
+        <!-- Section 5: PCI table starts here -->
+        <h3>E. Calculate Pavement Condition Index (PCI)</h3>
+
+        <table id="dynamicTablePCI">
+            <thead>
+                <tr>
+                    <th rowspan="1">Max_CDV</th>
+                    <th colspan="1">PCI = 100 - Max_CDV</th>
+                    <th rowspan="1">Rating (ASTM / FAA)</th>
+                    <th rowspan="1">Rating (Scale 2)</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+
+         <!-- Section 6: PCI table starts here -->
+         <h3>F. Pavement Condition Index (PCI) Rating Scales</h3>
+        <div class="pci-container">
+            <!-- ASTM Column -->
+            <div class="pci-column" id="astm-column">
+                <h3>ASTM D5340/FAA PCI Ratings</h3>
+            </div>
+        
+            <!-- FAA Column -->
+            <div class="pci-column" id="faa-column">
+                <h3>Scale 2 Ratings</h3>
+            </div>
+        </div>
+        
+
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
