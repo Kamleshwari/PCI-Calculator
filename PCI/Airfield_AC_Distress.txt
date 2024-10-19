@@ -4,3 +4,14 @@
 4-Corrugation
 5-Depression
 6-Jet blast
+7-Joint Reflection
+8-Long. & Trans. Cracking
+9-Oil Spillage
+10-Patching
+11-Polished Aggregate
+12-Raveling
+13-Rutting
+14-Shoving from PCC
+15-Slippage Cracking
+16-Swelling
+17-Weathering
