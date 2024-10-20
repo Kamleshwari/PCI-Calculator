@@ -2,6 +2,14 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* New style for the MainHeader */
+.MainHeader {
+    background-color: teal; /* Set the background color to teal */
+    color: white; /* Optional: change the text color to white for better contrast */
+    padding: 10px; /* Optional: add some padding for visual appeal */
+    text-align: center; /* Optional: center the text */
+}
+
 .container {
     margin: 20px;
 }
@@ -104,4 +112,22 @@ input[type="text"], input[type="date"], input[type="time"], select {
     color: black;  /* Set label text to black */
     bottom: 0;  /* Align number labels to the bottom of each box */
     /*top: -20px; /* Adjust as necessary to position it above the box */
+}
+
+table.distress-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 12px; /* Smaller font size */
+    border: 1px solid black; /* Outer border */
+}
+
+td.distress-cell {
+    border: none; /* No interior border */
+    padding: 4px; /* Smaller padding */
+    text-align: left; /* Left align the text */
+    vertical-align: top; /* Align text to the top */
+}
+
+.column-distress {
+    width: 16.67%; /* Each column takes up one-sixth of the table width */
 }

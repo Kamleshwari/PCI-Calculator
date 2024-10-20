@@ -10,7 +10,7 @@
 <body>
 
 <div class="container">
-    <h2>Pavement Condition Index (PCI) - Flexible Pavement (Asphalt concrete) for Airfield</h2>
+    <h2 class="MainHeader">Pavement Condition Index (PCI) - Flexible Pavement (Asphalt concrete) for Airfield</h2>
 
     <form id="pciForm">
         <!-- Section 1: User Input (Network, Branch, Survey Information, etc.) -->
@@ -55,7 +55,12 @@
         </div>
 
         <!-- Section 2: Excel-Type Sheet Starts Here -->
-        <h3>B. Flexible Pavement Condition Data Sheet</h3>
+        <h3>B. Distress Types</h3>
+
+        <table id="distressTable"></table>
+        
+        <!-- Section 3: Excel-Type Sheet Starts Here -->
+        <h3>C. Flexible Pavement Condition Data Sheet</h3>
 
         <table id="dynamicTable">
             <thead>
@@ -92,8 +97,8 @@
         <button type="button" onclick="calculate_DV()">Calculate DV</button>
         <button type="button" onclick="Calculate_Maximum_CDV()">Calculate PCI</button>
 
-        <!-- Section 3: Maximum allowable number of distress table starts here -->
-        <h3>C. Maximum allowable number of distresses (m)</h3>
+        <!-- Section 4: Maximum allowable number of distress table starts here -->
+        <h3>D. Maximum allowable number of distresses (m)</h3>
 
         <table id="dynamicTablem">
             <thead>
@@ -108,8 +113,8 @@
             </tbody>
         </table>
 
-        <!-- Section 4: CDV table starts here -->
-        <h3>D. Determine maximum Corrected Deduct Value (Max CDV)</h3>
+        <!-- Section 5: CDV table starts here -->
+        <h3>E. Determine maximum Corrected Deduct Value (Max CDV)</h3>
 
         <table id="dynamicTableCDV">
             <thead>
@@ -127,8 +132,8 @@
             </tbody>
         </table>
 
-        <!-- Section 5: PCI table starts here -->
-        <h3>E. Calculate Pavement Condition Index (PCI)</h3>
+        <!-- Section 6: PCI table starts here -->
+        <h3>F. Calculate Pavement Condition Index (PCI)</h3>
 
         <table id="dynamicTablePCI">
             <thead>
@@ -145,8 +150,8 @@
             </tbody>
         </table>
 
-         <!-- Section 6: PCI table starts here -->
-         <h3>F. Pavement Condition Index (PCI) Rating Scales</h3>
+         <!-- Section 7: PCI table starts here -->
+         <h3>G. Pavement Condition Index (PCI) Rating Scales</h3>
         <div class="pci-container">
             <!-- ASTM Column -->
             <div class="pci-column" id="astm-column">

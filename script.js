@@ -30,7 +30,33 @@ distressTypes = [
         "17-Weathering"
     ];
     
+function DisplayDistressTypes(distressTypes, columns){
+    //const columns = 6; // Number of columns
+    const maxRows = Math.ceil(distressTypes.length / columns); // Calculate the maximum number of rows needed
+    const table = document.getElementById("distressTable");
 
+    // Set the class for the table
+    table.className = 'distress-table';
+
+    // Create rows and cells dynamically
+    for (let i = 0; i < maxRows; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < columns; j++) {
+            const index = i + j * maxRows; // Calculate the index based on the current row and column
+            const cell = document.createElement("td");
+            if (index < distressTypes.length) {
+                cell.textContent = distressTypes[index]; // Set the text content of the cell
+            }
+            cell.className = "distress-cell column-distress"; // Add unique column class for styling
+            row.appendChild(cell); // Append the cell to the row
+        }
+        table.appendChild(row); // Append the row to the table
+    }
+
+}
+
+
+DisplayDistressTypes(distressTypes,6);
 /*fetch('Severity.txt')
     .then(response => response.text())
     .then(data => {
