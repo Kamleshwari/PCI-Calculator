@@ -1426,6 +1426,143 @@ function generateDistressTable(data, selectedSheet) {
 // Plot data initially for the first sheet
 plotData();
 
+//Database related
+
+let fileData = [];
+let uploadedFileName = "";
+
+// Create and download a new empty file
+document.getElementById('createFile').addEventListener('click', function() {
+    const newFileName = document.getElementById('newFileName').value.trim();
+    
+    if (newFileName === "") {
+        alert('Please enter a valid file name.');
+        return;
+    }
+
+    // Create empty data array for the new file
+    const jsonData = JSON.stringify([], null, 2);
+
+    // Create downloadable file
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${newFileName}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    //preventDefault(); // Prevents the form from refreshing the page
+    alert('New file created and downloaded. You can now upload it to add data.');
+    
+});
+
+// Handle file upload and parsing
+document.getElementById('uploadFile').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        try {
+            fileData = JSON.parse(event.target.result); // Parse the uploaded file content
+            uploadedFileName = file.name.replace('.json', '');  // Set the uploaded file name (without extension)
+            alert('File data loaded into memory.');
+        } catch (error) {
+            alert('Error reading the file.');
+        }
+    };
+
+    reader.readAsText(file);
+});
+
+// Clear file from memory
+document.getElementById('clearFile').addEventListener('click', function() {
+    uploadedFileName = "";
+    fileData = [];
+    document.getElementById('uploadFile').value = "";  // Clear the file input
+    alert('File cleared from memory.');
+});
+
+// Add data to the uploaded file
+document.getElementById('addToDatabase').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+
+    const network = document.getElementById('networkName').value;
+    const branch = document.getElementById('branchName').value;
+    const section = document.getElementById('sectionName').value;
+    const unit = document.getElementById('unitName').value;
+
+    const network_area = document.getElementById('networkArea').value;
+    const branch_area = document.getElementById('branchArea').value;
+    const section_area = document.getElementById('sectionArea').value;
+    const unit_area = document.getElementById('unitArea').value;
+
+
+    const tableBody = document.querySelector('#dynamicTablePCI tbody');
+    const rows = tableBody.getElementsByTagName('tr');
+    const targetRow = rows[0]; // Get the specified row
+    const cells = targetRow.getElementsByTagName('td');
+
+    const pci = cells[1].textContent;
+    const pciRating1 = cells[2].textContent;
+    const pciRating2 = cells[3].textContent;
+
+    const newData = { network, branch, section, unit, network_area, branch_area, section_area, unit_area, pci, pciRating1, pciRating2 };
+
+    if (!uploadedFileName) {
+        alert('Please upload a file to add data.');
+        return;
+    }
+
+    // Add the new data to the fileData array
+    fileData.push(newData);
+    alert('Data added to the uploaded file.');
+});
+
+// Download the updated file
+document.getElementById('downloadFile').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+    if (!uploadedFileName) {
+        alert('Please upload a file first.');
+        return;
+    }
+
+    // Convert the updated fileData array to JSON format
+    const jsonData = JSON.stringify(fileData, null, 2);
+
+    // Create a downloadable file with the updated data
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${uploadedFileName}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+});
+
+// Convert and download the file as Excel
+document.getElementById('downloadExcel').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+    if (!uploadedFileName) {
+        alert('Please upload a file first.');
+        return;
+    }
+
+    // Convert JSON data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(fileData);
+
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // Create downloadable Excel file
+    XLSX.writeFile(workbook, `${uploadedFileName}.xlsx`);
+});
+
+
+
 
 
 

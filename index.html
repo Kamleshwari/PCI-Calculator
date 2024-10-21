@@ -6,6 +6,7 @@
     <title>PCI System with Dynamic Table</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -13,6 +14,21 @@
     <h2 class="MainHeader">Pavement Condition Index (PCI) - Flexible Pavement (Asphalt concrete) for Airfield</h2>
 
     <form id="pciForm">
+        <h3>Create/Upload Database (*.json)</h3>
+        <!-- Create New File Section -->
+        <div id="createFileSection">
+            <label for="newFileName">Enter File Name to Create (without extension):</label>
+            <input type="text" id="newFileName" placeholder="Enter new file name">
+            <button id="createFile">Create and Download New File</button>
+            
+            <label for="uploadFile">Upload Existing File:</label>
+            <input type="file" id="uploadFile" accept=".json">
+
+            <!-- Clear File from Memory Button -->
+            <button id="clearFile">Clear File from Memory</button>
+        </div>
+
+        
         <!-- Section 1: User Input (Network, Branch, Survey Information, etc.) -->
         <h3>A. Survey Information</h3>
         <table id="surveyInfoTable">
@@ -96,6 +112,14 @@
         <button type="button" onclick="calculateTotal()">Calculate Total</button>
         <button type="button" onclick="calculate_DV()">Calculate DV</button>
         <button type="button" onclick="Calculate_Maximum_CDV()">Calculate PCI</button>
+
+        <button id="addToDatabase">Add to Database</button>
+
+        <!-- Download Updated File -->
+        <button id="downloadFile">Download Updated File (*.json)</button>
+    
+        <!-- Download as Excel -->
+        <button id="downloadExcel">Download as Excel</button>
 
         <!-- Section 4: Maximum allowable number of distress table starts here -->
         <h3>D. Maximum allowable number of distresses (m)</h3>
