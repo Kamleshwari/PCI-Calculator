@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCI System with Dynamic Table</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -161,6 +161,25 @@
             <!-- FAA Column -->
             <div class="pci-column" id="faa-column">
                 <h3>Scale 2 Ratings</h3>
+            </div>
+        </div>
+
+         <!-- Section 8: Chart/plot for distress curves starts here -->
+         <h3>H. Distress Data Plotting</h3>
+         <div class="main-chart-container">
+            
+            <!-- Dropdown to select the sheet -->
+            <label for="sheetSelect">Select Distress type:</label>
+            <select id="sheetSelect" onchange="plotData()"></select>
+    
+            <!-- Graph Container -->
+            <div class="chart-container">
+                <canvas id="distressChart"></canvas>
+            </div>
+    
+            <!-- Table will be displayed here -->
+            <div class="table-container">
+                <table id="distressTabledata"></table>
             </div>
         </div>
         

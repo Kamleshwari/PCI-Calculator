@@ -1281,5 +1281,152 @@ function generateTableRows_m() {
 }
 
 
+// Function to populate the dropdown
+function populateDropdown() {
+    const dropdown = document.getElementById('sheetSelect');
+
+    // Clone the distressTypes array and add "CDV_AC" at the end
+    const temp_distressTypes = [...distressTypes, "CDV_AC"];
+
+    // Iterate through distressTypes and create option elements
+    temp_distressTypes.forEach((distress, index) => {
+        const option = document.createElement('option');
+        option.value = distress.trim();//index + 1;// Set the value attribute (you can modify this if needed)
+        option.text = distress.trim();   // Set the display text
+        dropdown.appendChild(option);
+    });
+}
+
+// Call the function to populate the dropdown
+populateDropdown();
+
+let chart; // To store the Chart instance
+// Function to plot the data and generate the table
+function plotData() {
+    ReadCurveData();
+    const selectedSheet = document.getElementById("sheetSelect").value;
+    const data = distressData[selectedSheet];
+    //alert(selectedSheet);
+    let xValues, datasets, xLabel;
+
+    //const CorrChart = 'CDV_AC';
+
+    // Check if it's Sheet1, Sheet2, or Sheet3
+    if (selectedSheet === 'CDV_AC') {
+        xValues = data.map(item => item.Total); // 'Total' values for Sheet3
+        datasets = [];
+        // Generate datasets for Q1 to Q10 for Sheet3
+        for (let i = 1; i <= 10; i++) {
+            datasets.push({
+                label: `Q${i}`,
+                data: data.map(item => item[`Q${i}`]),
+                borderColor: `hsl(${i * 36}, 100%, 50%)`, // Colorful lines
+                fill: false
+            });
+        }
+
+        xLabel = 'Total'; // Label for x-axis in Sheet3
+
+    } else {
+        xValues = data.map(item => item.Density); // 'Density' values for Sheet1 and Sheet2
+        datasets = [
+            {
+                label: 'L',
+                data: data.map(item => item.L),
+                borderColor: 'blue',
+                fill: false
+            },
+            {
+                label: 'M',
+                data: data.map(item => item.M),
+                borderColor: 'green',
+                fill: false
+            },
+            {
+                label: 'H',
+                data: data.map(item => item.H),
+                borderColor: 'red',
+                fill: false
+            }
+        ];
+
+        xLabel = 'Density'; // Label for x-axis in Sheet1 and Sheet2
+    }
+
+    //const isLogarithmic = (selectedSheet === 'Sheet1' || selectedSheet === 'Sheet2');
+    // Check if logarithmic scaling should be applied
+    const isLogarithmic = (selectedSheet !== 'CDV_AC');
+    
+    // Destroy previous chart if it exists
+    if (chart) {
+        chart.destroy();
+    }
+
+    // Create new chart
+    const ctx = document.getElementById("distressChart").getContext("2d");
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: xValues,
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                x: {
+                    type: isLogarithmic ? 'logarithmic' : 'linear',
+                    title: {
+                        display: true,
+                        text: xLabel
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: selectedSheet === 'CDV_AC' ? 'Corrected Deduct Value (CDV)' : 'Deduct Value (DV)'
+                    }
+                }
+            }
+        }
+    });
+
+    // Generate table below the graph
+    generateDistressTable(data, selectedSheet);
+}
+
+// Function to generate the table
+function generateDistressTable(data, selectedSheet) {
+    const table = document.getElementById("distressTabledata");
+    table.innerHTML = ''; // Clear any existing table
+
+    let headers;
+    if (selectedSheet === 'CDV_AC') {
+        headers = ['Total', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10'];
+    } else {
+        headers = ['Density', 'L', 'M', 'H'];
+    }
+
+    const headerRow = table.insertRow();
+    headers.forEach(header => {
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+
+    // Populate table rows
+    data.forEach(row => {
+        const newRow = table.insertRow();
+        headers.forEach(header => {
+            const cell = newRow.insertCell();
+            cell.textContent = row[header];
+        });
+    });
+}
+
+// Plot data initially for the first sheet
+plotData();
+
+
+
+
 // Detect changes in the Unit Area input and update the density and deduct value automatically
 //document.getElementById('unitArea').addEventListener('input', calculateTotal);
