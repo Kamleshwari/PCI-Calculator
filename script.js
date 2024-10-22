@@ -1482,6 +1482,7 @@ document.getElementById('createFile').addEventListener('click', function() {
 
 // Handle file upload and parsing
 document.getElementById('uploadFile').addEventListener('change', function(event) {
+
     const file = event.target.files[0];
     const reader = new FileReader();
 
@@ -1497,6 +1498,53 @@ document.getElementById('uploadFile').addEventListener('change', function(event)
 
     reader.readAsText(file);
 });
+
+document.getElementById('viewFile').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+    // Ensure fileData is loaded
+    if (!fileData || fileData.length === 0) {
+        alert('No data to display. Please upload a file first.');
+        return;
+    }
+
+    const fileContentDiv = document.getElementById('fileContent');
+    fileContentDiv.innerHTML = ''; // Clear previous content
+
+    // Create a table element
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+
+    // Assuming fileData is an array of objects
+    const keys = Object.keys(fileData[0]); // Get the keys from the first object as table headers
+
+    // Create table headers
+    const headerRow = document.createElement('tr');
+    keys.forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    // Create table rows for each data object
+    fileData.forEach(data => {
+        const row = document.createElement('tr');
+        keys.forEach(key => {
+            const td = document.createElement('td');
+            td.textContent = data[key];
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    // Append the table to the fileContent div
+    fileContentDiv.appendChild(table);
+});
+
 
 // Clear file from memory
 document.getElementById('clearFile').addEventListener('click', function() {

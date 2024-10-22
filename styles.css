@@ -149,3 +149,28 @@ td.distress-cell {
     width: 80%;
     overflow-x: auto;
 }
+
+#fileContent {
+    overflow: auto;
+    width: 100%; /* Set the width to 100% of the container */
+    max-height: 300px; /* Limit the height, make the content scrollable if exceeded */
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+/* Table styling */
+#fileContent table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Table header styling */
+#fileContent th, #fileContent td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#fileContent th {
+    background-color: #f2f2f2;
+}
