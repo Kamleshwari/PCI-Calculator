@@ -1506,7 +1506,7 @@ document.getElementById('clearFile').addEventListener('click', function() {
     alert('File cleared from memory.');
 });
 
-// Add data to the uploaded file
+/*// Add data to the uploaded file
 document.getElementById('addToDatabase').addEventListener('click', function() {
     event.preventDefault(); // Prevents the form from refreshing the page
 
@@ -1540,7 +1540,63 @@ document.getElementById('addToDatabase').addEventListener('click', function() {
     // Add the new data to the fileData array
     fileData.push(newData);
     alert('Data added to the uploaded file.');
+});*/
+
+// Add data to the uploaded file
+document.getElementById('addToDatabase').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevents the form from refreshing the page
+
+    const network = document.getElementById('networkName').value;
+    const branch = document.getElementById('branchName').value;
+    const section = document.getElementById('sectionName').value;
+    const unit = document.getElementById('unitName').value;
+
+    const network_area = document.getElementById('networkArea').value;
+    const branch_area = document.getElementById('branchArea').value;
+    const section_area = document.getElementById('sectionArea').value;
+    const unit_area = document.getElementById('unitArea').value;
+
+    const tableBody = document.querySelector('#dynamicTablePCI tbody');
+    const rows = tableBody.getElementsByTagName('tr');
+    const targetRow = rows[0]; // Get the specified row
+    const cells = targetRow.getElementsByTagName('td');
+
+    const pci = cells[1].textContent;
+    const pciRating1 = cells[2].textContent;
+    const pciRating2 = cells[3].textContent;
+
+    const newData = { network, branch, section, unit, network_area, branch_area, section_area, unit_area, pci, pciRating1, pciRating2 };
+
+    if (!uploadedFileName) {
+        alert('Please upload a file to add data.');
+        return;
+    }
+
+    // Check if the data already exists based on network, branch, section, and unit names
+    let dataExists = false;
+    
+    for (let i = 0; i < fileData.length; i++) {
+        if (
+            fileData[i].network === network &&
+            fileData[i].branch === branch &&
+            fileData[i].section === section &&
+            fileData[i].unit === unit
+        ) {
+            // Update the existing data
+            fileData[i] = newData;
+            dataExists = true;
+            alert('Data updated in the uploaded file.');
+            break;
+        }
+    }
+
+    // If data does not exist, add the new entry
+    if (!dataExists) {
+        fileData.push(newData);
+        alert('New data added to the uploaded file.');
+    }
 });
+
 
 // Download the updated file
 document.getElementById('downloadFile').addEventListener('click', function() {
