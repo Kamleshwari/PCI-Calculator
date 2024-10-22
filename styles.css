@@ -174,3 +174,29 @@ td.distress-cell {
 #fileContent th {
     background-color: #f2f2f2;
 }
+
+/* Align elements in a single line */
+label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#headerDropdown, #valueDropdown, span {
+    padding: 8px;
+    margin-right: 15px;
+    width: auto; /* Adjust width so that elements fit in one line */
+    display: inline-block;
+    vertical-align: middle; /* Align elements vertically in the center */
+}
+
+#calculatedPCI {
+    color: blue; /* Make PCI value blue */
+    font-weight: bold;
+}
+
+.dropdowncontainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+

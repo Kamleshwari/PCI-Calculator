@@ -14,7 +14,8 @@
     <h2 class="MainHeader">Pavement Condition Index (PCI) - Flexible Pavement (Asphalt concrete) for Airfield</h2>
 
     <form id="pciForm">
-        <h3>Create/Upload Database (*.json)</h3>
+        <!-- Section 1: Create/Upload Database -->
+        <h3>A. Create/Upload Database (*.json)</h3>
         <!-- Create New File Section -->
         <div id="createFileSection">
             <label for="newFileName">Enter File Name to Create (without extension):</label>
@@ -32,11 +33,38 @@
                 <!-- Table content will be generated here -->
             </div>
 
+            <div class="dropdownContainer">
+                <!-- Dropdown 1: Contains headers -->
+                <label for="headerDropdown">Select Column:</label>
+                <select id="headerDropdown">
+                    <option value="network">Network</option>
+                    <option value="branch">Branch</option>
+                    <option value="section">Section</option>
+                </select>
+
+                <!-- Dropdown 2: Will be dynamically populated with unique values -->
+                <label for="valueDropdown">Select Value:</label>
+                <select id="valueDropdown">
+                    <option value="">Select a value</option>
+                </select>
+
+                <!-- Display the calculated PCI -->
+                <label id="pciLabel" for="calculatedPCI">Calculated PCI: </label>
+                <span id="calculatedPCI">N/A</span>
+                
+            </div>
+
+            <!-- Input for row number and button -->
+            <label for="rowNumber">Enter Row Number:</label>
+            <input type="number" id="rowNumber" min="1" placeholder="Row number">
+            <button id="extractRowData">Extract Row Data</button>
+
+            
         </div>
 
         
-        <!-- Section 1: User Input (Network, Branch, Survey Information, etc.) -->
-        <h3>A. Survey Information</h3>
+        <!-- Section 2: User Input (Network, Branch, Survey Information, etc.) -->
+        <h3>B. Survey Information</h3>
         <table id="surveyInfoTable">
             <tr>
                 <th>Description</th>
@@ -76,13 +104,13 @@
             <input type="time" id="surveyTime">
         </div>
 
-        <!-- Section 2: Excel-Type Sheet Starts Here -->
-        <h3>B. Distress Types</h3>
+        <!-- Section 3: Excel-Type Sheet Starts Here -->
+        <h3>C. Distress Types</h3>
 
         <table id="distressTable"></table>
         
-        <!-- Section 3: Excel-Type Sheet Starts Here -->
-        <h3>C. Flexible Pavement Condition Data Sheet</h3>
+        <!-- Section 4: Excel-Type Sheet Starts Here -->
+        <h3>D. Flexible Pavement Condition Data Sheet</h3>
 
         <table id="dynamicTable">
             <thead>
@@ -127,8 +155,8 @@
         <!-- Download as Excel -->
         <button id="downloadExcel">Download as Excel</button>
 
-        <!-- Section 4: Maximum allowable number of distress table starts here -->
-        <h3>D. Maximum allowable number of distresses (m)</h3>
+        <!-- Section 5: Maximum allowable number of distress table starts here -->
+        <h3>E. Maximum allowable number of distresses (m)</h3>
 
         <table id="dynamicTablem">
             <thead>
@@ -143,8 +171,8 @@
             </tbody>
         </table>
 
-        <!-- Section 5: CDV table starts here -->
-        <h3>E. Determine maximum Corrected Deduct Value (Max CDV)</h3>
+        <!-- Section 6: CDV table starts here -->
+        <h3>F. Determine maximum Corrected Deduct Value (Max CDV)</h3>
 
         <table id="dynamicTableCDV">
             <thead>
@@ -162,8 +190,8 @@
             </tbody>
         </table>
 
-        <!-- Section 6: PCI table starts here -->
-        <h3>F. Calculate Pavement Condition Index (PCI)</h3>
+        <!-- Section 7: PCI table starts here -->
+        <h3>G. Calculate Pavement Condition Index (PCI)</h3>
 
         <table id="dynamicTablePCI">
             <thead>
@@ -180,8 +208,8 @@
             </tbody>
         </table>
 
-         <!-- Section 7: PCI table starts here -->
-         <h3>G. Pavement Condition Index (PCI) Rating Scales</h3>
+         <!-- Section 8: PCI table starts here -->
+         <h3>H. Pavement Condition Index (PCI) Rating Scales</h3>
         <div class="pci-container">
             <!-- ASTM Column -->
             <div class="pci-column" id="astm-column">
@@ -194,8 +222,8 @@
             </div>
         </div>
 
-         <!-- Section 8: Chart/plot for distress curves starts here -->
-         <h3>H. Distress Data Plotting</h3>
+         <!-- Section 9: Chart/plot for distress curves starts here -->
+         <h3>I. Distress Data Plotting</h3>
          <div class="main-chart-container">
             
             <!-- Dropdown to select the sheet -->

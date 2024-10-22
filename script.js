@@ -1499,7 +1499,7 @@ document.getElementById('uploadFile').addEventListener('change', function(event)
     reader.readAsText(file);
 });
 
-document.getElementById('viewFile').addEventListener('click', function() {
+/*document.getElementById('viewFile').addEventListener('click', function() {
     event.preventDefault(); // Prevents the form from refreshing the page
     // Ensure fileData is loaded
     if (!fileData || fileData.length === 0) {
@@ -1520,6 +1520,13 @@ document.getElementById('viewFile').addEventListener('click', function() {
 
     // Create table headers
     const headerRow = document.createElement('tr');
+
+    // Add "Row Number" as the first column header
+    const rowNumberHeader = document.createElement('th');
+    rowNumberHeader.textContent = '#'; // Row number header
+    headerRow.appendChild(rowNumberHeader);
+
+
     keys.forEach(key => {
         const th = document.createElement('th');
         th.textContent = key;
@@ -1543,7 +1550,70 @@ document.getElementById('viewFile').addEventListener('click', function() {
 
     // Append the table to the fileContent div
     fileContentDiv.appendChild(table);
+});*/
+
+document.getElementById('viewFile').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevents the form from refreshing the page
+
+    // Ensure fileData is loaded
+    if (!fileData || fileData.length === 0) {
+        alert('No data to display. Please upload a file first.');
+        return;
+    }
+
+    const fileContentDiv = document.getElementById('fileContent');
+    fileContentDiv.innerHTML = ''; // Clear previous content
+
+    // Create a table element
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+
+    // Assuming fileData is an array of objects
+    const keys = Object.keys(fileData[0]); // Get the keys from the first object as table headers
+
+    // Create table headers, with an additional header for row numbers
+    const headerRow = document.createElement('tr');
+    
+    // Add "Row Number" as the first column header
+    const rowNumberHeader = document.createElement('th');
+    rowNumberHeader.textContent = '#'; // Row number header
+    headerRow.appendChild(rowNumberHeader);
+
+    // Create the rest of the headers from the keys
+    keys.forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    // Create table rows for each data object, including row numbers
+    fileData.forEach((data, index) => {
+        const row = document.createElement('tr');
+
+        // Add row number cell
+        const rowNumberCell = document.createElement('td');
+        rowNumberCell.textContent = index + 1; // Row number (1-based index)
+        row.appendChild(rowNumberCell);
+
+        // Add the rest of the data cells
+        keys.forEach(key => {
+            const td = document.createElement('td');
+            td.textContent = data[key];
+            row.appendChild(td);
+        });
+
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    // Append the table to the fileContent div
+    fileContentDiv.appendChild(table);
 });
+
 
 
 // Clear file from memory
@@ -1553,6 +1623,91 @@ document.getElementById('clearFile').addEventListener('click', function() {
     document.getElementById('uploadFile').value = "";  // Clear the file input
     alert('File cleared from memory.');
 });
+
+
+document.getElementById('extractRowData').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+
+    const rowNumber = parseInt(document.getElementById('rowNumber').value) - 1; // Get the row number and adjust for 0-indexing
+
+    // Ensure fileData is loaded
+    if (!fileData || fileData.length === 0) {
+        alert('No data to extract. Please upload a file first.');
+        return;
+    }
+
+    // Validate row number
+    if (rowNumber < 0 || rowNumber >= fileData.length) {
+        alert('Invalid row number. Please enter a valid row number.');
+        return;
+    }
+
+    // Extract the specified row data
+    const rowData = fileData[rowNumber];
+
+    // Populate the form fields with the extracted row data
+    document.getElementById('networkName').value = rowData.network || '';
+    document.getElementById('branchName').value = rowData.branch || '';
+    document.getElementById('sectionName').value = rowData.section || '';
+    document.getElementById('unitName').value = rowData.unit || '';
+    document.getElementById('networkArea').value = rowData.network_area || '';
+    document.getElementById('branchArea').value = rowData.branch_area || '';
+    document.getElementById('sectionArea').value = rowData.section_area || '';
+    document.getElementById('unitArea').value = rowData.unit_area || '';
+});
+
+
+
+document.getElementById('headerDropdown').addEventListener('change', function() {
+    const selectedHeader = this.value;
+
+    // Populate the second dropdown with unique values from the selected column (header)
+    const uniqueValues = [...new Set(fileData.map(row => row[selectedHeader]))];
+    
+    const valueDropdown = document.getElementById('valueDropdown');
+    valueDropdown.innerHTML = '';  // Clear previous options
+
+    // Add an initial placeholder option
+    const defaultOption = document.createElement('option');
+    defaultOption.text = 'Select a value';
+    defaultOption.value = '';
+    valueDropdown.appendChild(defaultOption);
+
+    // Populate the dropdown with unique values
+    uniqueValues.forEach(value => {
+        const option = document.createElement('option');
+        option.text = value;
+        option.value = value;
+        valueDropdown.appendChild(option);
+    });
+});
+
+// Handle the selection in the second dropdown and calculate PCI
+document.getElementById('valueDropdown').addEventListener('change', function() {
+    const selectedValue = this.value;
+    const selectedHeader = document.getElementById('headerDropdown').value;
+
+    // Filter the rows that match the selected value
+    const matchingRows = fileData.filter(row => row[selectedHeader] === selectedValue);
+
+    // Calculate PCI: sum(unit_area * pci) / sum(unit_area)
+    const totalArea = matchingRows.reduce((acc, row) => acc + parseFloat(row.unit_area || 0), 0);
+    const pciSum = matchingRows.reduce((acc, row) => acc + (parseFloat(row.unit_area || 0) * parseFloat(row.pci || 0)), 0);
+
+    const pci = totalArea > 0 ? (pciSum / totalArea).toFixed(2) : 'N/A';
+
+    // Display the calculated PCI
+    //document.getElementById('calculatedPCI').textContent = pci;
+
+    // Update the label to display the selected column and value
+    const selectedHeaderText = document.querySelector(`#headerDropdown option[value="${selectedHeader}"]`).text;
+    document.getElementById('pciLabel').textContent = `Calculated PCI for ${selectedHeaderText}: ${selectedValue} =`;
+
+    // Display the calculated PCI
+    document.getElementById('calculatedPCI').textContent = pci;
+});
+
+
 
 /*// Add data to the uploaded file
 document.getElementById('addToDatabase').addEventListener('click', function() {
