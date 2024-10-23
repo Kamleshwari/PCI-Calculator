@@ -1704,8 +1704,152 @@ document.getElementById('valueDropdown').addEventListener('change', function() {
     document.getElementById('pciLabel').textContent = `Calculated PCI for ${selectedHeaderText}: ${selectedValue} =`;
 
     // Display the calculated PCI
+    let Rating1 = getASTMPCIRating(pci);
+    let Rating2 = getFAAPCIRating(pci);
     document.getElementById('calculatedPCI').textContent = pci;
+
+    document.getElementById('calculatedPCI_rating1').textContent = "ASTM_Rating = " + Rating1.rating;
+    document.getElementById('calculatedPCI_rating1').style.backgroundColor = Rating1.color;
+
+    document.getElementById('calculatedPCI_rating2').textContent = "Scale2_Rating = " + Rating2.rating;
+    document.getElementById('calculatedPCI_rating2').style.backgroundColor = Rating2.color;
 });
+
+
+
+
+
+
+
+
+document.getElementById('viewElementalPCI').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+    // Dummy data to illustrate the structure
+    /*const fileData = [
+        { network: 'A', branch: 'X', section: 'S1', pci: 80, unit_area: 500 },
+        { network: 'A', branch: 'Y', section: 'S2', pci: 75, unit_area: 300 },
+        { network: 'B', branch: 'X', section: 'S3', pci: 90, unit_area: 200 },
+        { network: 'B', branch: 'Z', section: 'S4', pci: 85, unit_area: 600 },
+        { network: 'C', branch: 'Y', section: 'S5', pci: 70, unit_area: 100 },
+    ];
+
+    // Function to calculate PCI ratings and colors
+    function getASTMPCIRating(pci) {
+        if (pci >= 85) return { rating: 'Excellent', color: 'green' };
+        else if (pci >= 70) return { rating: 'Good', color: 'yellow' };
+        else return { rating: 'Poor', color: 'red' };
+    }
+
+    function getFAAPCIRating(pci) {
+        if (pci >= 85) return { rating: 'A+', color: 'blue' };
+        else if (pci >= 70) return { rating: 'B', color: 'orange' };
+        else return { rating: 'C', color: 'brown' };
+    }*/
+
+    // Function to generate table rows based on unique values
+    function populateTable(data, tableId, columnKey) {
+        const tableBody = document.getElementById(tableId).querySelector('tbody');
+        tableBody.innerHTML = ''; // Clear existing rows
+
+        const uniqueValues = [...new Set(data.map(item => item[columnKey]))];
+
+        uniqueValues.forEach(value => {
+            const filteredData = data.filter(item => item[columnKey] === value);
+
+            // Calculate total PCI based on unit area
+            const totalUnitArea = filteredData.reduce((sum, item) => sum + parseFloat(item.unit_area), 0);
+            const weightedPCI = filteredData.reduce((sum, item) => sum + (parseFloat(item.pci) * parseFloat(item.unit_area)), 0) / totalUnitArea;
+
+            // Get PCI ratings
+            const rating1 = getASTMPCIRating(weightedPCI);
+            const rating2 = getFAAPCIRating(weightedPCI);
+
+            // Create row
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${value}</td>
+                <td>${weightedPCI.toFixed(2)}</td>
+                <td class="rating1" style="background-color:${rating1.color}">${rating1.rating}</td>
+                <td class="rating2" style="background-color:${rating2.color}">${rating2.rating}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Populate all three tables
+    populateTable(fileData, 'networkTable', 'network');
+    populateTable(fileData, 'branchTable', 'branch');
+    populateTable(fileData, 'sectionTable', 'section');
+});
+
+
+
+
+
+
+
+/*
+// Handle the "View Elemental PCI" button click
+document.getElementById('viewElementalPCI').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+
+    const container = document.getElementById('elementalPCIContainer');
+    container.innerHTML = '';  // Clear previous tables
+
+    // Create tables for network, branch, and section
+    createElementalPCITable('network', container);
+    createElementalPCITable('branch', container);
+    createElementalPCITable('section', container);
+});
+
+// Helper function to calculate PCI for each group and create a table
+function createElementalPCITable(groupBy, container) {
+    const uniqueGroups = [...new Set(fileData.map(row => row[groupBy]))];
+
+    uniqueGroups.forEach(group => {
+        const matchingRows = fileData.filter(row => row[groupBy] === group);
+
+        // Calculate PCI: sum(unit_area * pci) / sum(unit_area)
+        const totalArea = matchingRows.reduce((acc, row) => acc + parseFloat(row.unit_area || 0), 0);
+        const pciSum = matchingRows.reduce((acc, row) => acc + (parseFloat(row.unit_area || 0) * parseFloat(row.pci || 0)), 0);
+        const pci = totalArea > 0 ? (pciSum / totalArea).toFixed(2) : 'N/A';
+
+        // Get ratings and colors from helper functions
+        const rating1 = getASTMPCIRating(pci);
+        const rating2 = getFAAPCIRating(pci);
+
+        // Create a table
+        const table = document.createElement('table');
+        table.border = '1';
+        table.style.marginBottom = '20px';
+        const caption = document.createElement('caption');
+        caption.textContent = `${groupBy.toUpperCase()}: ${group}`;
+        table.appendChild(caption);
+
+        // Add table headers
+        const headerRow = document.createElement('tr');
+        ['#', `${groupBy.charAt(0).toUpperCase() + groupBy.slice(1)}`, 'PCI', 'Rating (Scale 1)', 'Rating (Scale 2)'].forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+        table.appendChild(headerRow);
+
+        // Add the calculated row
+        const row = document.createElement('tr');
+        ['1', group, pci, rating1.text, rating2.text].forEach((cellValue, index) => {
+            const td = document.createElement('td');
+            td.textContent = cellValue;
+            // Apply background color to rating columns
+            if (index === 3) td.style.backgroundColor = rating1.color;
+            if (index === 4) td.style.backgroundColor = rating2.color;
+            row.appendChild(td);
+        });
+        table.appendChild(row);
+
+        container.appendChild(table);
+    });
+}*/
 
 
 

@@ -51,8 +51,85 @@
                 <!-- Display the calculated PCI -->
                 <label id="pciLabel" for="calculatedPCI">Calculated PCI: </label>
                 <span id="calculatedPCI">N/A</span>
+                <span id="calculatedPCI_rating1">N/A</span>
+                <span id="calculatedPCI_rating2">N/A</span>
                 
             </div>
+
+            <div class="unique-container">
+                <button id="viewElementalPCI">View Elemental PCI</button>
+        
+                <!-- Table for Networks -->
+                <h3>Network PCI</h3>
+                <table id="networkTable" class="pci-table">
+                    <colgroup>
+                        <col style="width: 35%;">
+                        <col style="width: 15%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Network</th>
+                            <th>PCI</th>
+                            <th>Rating (Scale 1)</th>
+                            <th>Rating (Scale 2)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Network PCI rows will be populated here -->
+                    </tbody>
+                </table>
+        
+                <!-- Table for Branches -->
+                <h3>Branch PCI</h3>
+                <table id="branchTable" class="pci-table">
+                    <colgroup>
+                        <col style="width: 35%;">
+                        <col style="width: 15%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>PCI</th>
+                            <th>Rating (Scale 1)</th>
+                            <th>Rating (Scale 2)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Branch PCI rows will be populated here -->
+                    </tbody>
+                </table>
+        
+                <!-- Table for Sections -->
+                <h3>Section PCI</h3>
+                <table id="sectionTable" class="pci-table">
+                    <colgroup>
+                        <col style="width: 35%;">
+                        <col style="width: 15%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>PCI</th>
+                            <th>Rating (Scale 1)</th>
+                            <th>Rating (Scale 2)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Section PCI rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
 
             <!-- Input for row number and button -->
             <label for="rowNumber">Enter Row Number:</label>

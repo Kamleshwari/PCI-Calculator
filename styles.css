@@ -200,3 +200,46 @@ label {
     margin-bottom: 15px;
 }
 
+
+.unique-container {
+    margin: 20px;
+}
+
+.pci-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.pci-table th, .pci-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.pci-table th {
+    background-color: #f2f2f2;
+}
+
+.pci-table td {
+    text-align: center;
+}
+
+.pci-table td.rating1, .pci-table td.rating2 {
+    color: black;
+}
+
+/* Column width control using colgroup */
+.pci-table colgroup col:nth-child(1) {
+    width: 35%;
+}
+
+.pci-table colgroup col:nth-child(2) {
+    width: 15%;
+}
+
+.pci-table colgroup col:nth-child(3),
+.pci-table colgroup col:nth-child(4) {
+    width: 25%;
+}
+
