@@ -1497,60 +1497,9 @@ document.getElementById('uploadFile').addEventListener('change', function(event)
     };
 
     reader.readAsText(file);
+
 });
 
-/*document.getElementById('viewFile').addEventListener('click', function() {
-    event.preventDefault(); // Prevents the form from refreshing the page
-    // Ensure fileData is loaded
-    if (!fileData || fileData.length === 0) {
-        alert('No data to display. Please upload a file first.');
-        return;
-    }
-
-    const fileContentDiv = document.getElementById('fileContent');
-    fileContentDiv.innerHTML = ''; // Clear previous content
-
-    // Create a table element
-    const table = document.createElement('table');
-    const thead = document.createElement('thead');
-    const tbody = document.createElement('tbody');
-
-    // Assuming fileData is an array of objects
-    const keys = Object.keys(fileData[0]); // Get the keys from the first object as table headers
-
-    // Create table headers
-    const headerRow = document.createElement('tr');
-
-    // Add "Row Number" as the first column header
-    const rowNumberHeader = document.createElement('th');
-    rowNumberHeader.textContent = '#'; // Row number header
-    headerRow.appendChild(rowNumberHeader);
-
-
-    keys.forEach(key => {
-        const th = document.createElement('th');
-        th.textContent = key;
-        headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
-
-    // Create table rows for each data object
-    fileData.forEach(data => {
-        const row = document.createElement('tr');
-        keys.forEach(key => {
-            const td = document.createElement('td');
-            td.textContent = data[key];
-            row.appendChild(td);
-        });
-        tbody.appendChild(row);
-    });
-
-    table.appendChild(thead);
-    table.appendChild(tbody);
-
-    // Append the table to the fileContent div
-    fileContentDiv.appendChild(table);
-});*/
 
 document.getElementById('viewFile').addEventListener('click', function(event) {
     event.preventDefault(); // Prevents the form from refreshing the page
@@ -1612,6 +1561,9 @@ document.getElementById('viewFile').addEventListener('click', function(event) {
 
     // Append the table to the fileContent div
     fileContentDiv.appendChild(table);
+
+    populateColumnDropdown();
+    populateDropdowns_Delete();
 });
 
 
@@ -1717,35 +1669,9 @@ document.getElementById('valueDropdown').addEventListener('change', function() {
 
 
 
-
-
-
-
-
 document.getElementById('viewElementalPCI').addEventListener('click', function() {
     event.preventDefault(); // Prevents the form from refreshing the page
-    // Dummy data to illustrate the structure
-    /*const fileData = [
-        { network: 'A', branch: 'X', section: 'S1', pci: 80, unit_area: 500 },
-        { network: 'A', branch: 'Y', section: 'S2', pci: 75, unit_area: 300 },
-        { network: 'B', branch: 'X', section: 'S3', pci: 90, unit_area: 200 },
-        { network: 'B', branch: 'Z', section: 'S4', pci: 85, unit_area: 600 },
-        { network: 'C', branch: 'Y', section: 'S5', pci: 70, unit_area: 100 },
-    ];
-
-    // Function to calculate PCI ratings and colors
-    function getASTMPCIRating(pci) {
-        if (pci >= 85) return { rating: 'Excellent', color: 'green' };
-        else if (pci >= 70) return { rating: 'Good', color: 'yellow' };
-        else return { rating: 'Poor', color: 'red' };
-    }
-
-    function getFAAPCIRating(pci) {
-        if (pci >= 85) return { rating: 'A+', color: 'blue' };
-        else if (pci >= 70) return { rating: 'B', color: 'orange' };
-        else return { rating: 'C', color: 'brown' };
-    }*/
-
+    
     // Function to generate table rows based on unique values
     function populateTable(data, tableId, columnKey) {
         const tableBody = document.getElementById(tableId).querySelector('tbody');
@@ -1783,111 +1709,6 @@ document.getElementById('viewElementalPCI').addEventListener('click', function()
 });
 
 
-
-
-
-
-
-/*
-// Handle the "View Elemental PCI" button click
-document.getElementById('viewElementalPCI').addEventListener('click', function() {
-    event.preventDefault(); // Prevents the form from refreshing the page
-
-    const container = document.getElementById('elementalPCIContainer');
-    container.innerHTML = '';  // Clear previous tables
-
-    // Create tables for network, branch, and section
-    createElementalPCITable('network', container);
-    createElementalPCITable('branch', container);
-    createElementalPCITable('section', container);
-});
-
-// Helper function to calculate PCI for each group and create a table
-function createElementalPCITable(groupBy, container) {
-    const uniqueGroups = [...new Set(fileData.map(row => row[groupBy]))];
-
-    uniqueGroups.forEach(group => {
-        const matchingRows = fileData.filter(row => row[groupBy] === group);
-
-        // Calculate PCI: sum(unit_area * pci) / sum(unit_area)
-        const totalArea = matchingRows.reduce((acc, row) => acc + parseFloat(row.unit_area || 0), 0);
-        const pciSum = matchingRows.reduce((acc, row) => acc + (parseFloat(row.unit_area || 0) * parseFloat(row.pci || 0)), 0);
-        const pci = totalArea > 0 ? (pciSum / totalArea).toFixed(2) : 'N/A';
-
-        // Get ratings and colors from helper functions
-        const rating1 = getASTMPCIRating(pci);
-        const rating2 = getFAAPCIRating(pci);
-
-        // Create a table
-        const table = document.createElement('table');
-        table.border = '1';
-        table.style.marginBottom = '20px';
-        const caption = document.createElement('caption');
-        caption.textContent = `${groupBy.toUpperCase()}: ${group}`;
-        table.appendChild(caption);
-
-        // Add table headers
-        const headerRow = document.createElement('tr');
-        ['#', `${groupBy.charAt(0).toUpperCase() + groupBy.slice(1)}`, 'PCI', 'Rating (Scale 1)', 'Rating (Scale 2)'].forEach(header => {
-            const th = document.createElement('th');
-            th.textContent = header;
-            headerRow.appendChild(th);
-        });
-        table.appendChild(headerRow);
-
-        // Add the calculated row
-        const row = document.createElement('tr');
-        ['1', group, pci, rating1.text, rating2.text].forEach((cellValue, index) => {
-            const td = document.createElement('td');
-            td.textContent = cellValue;
-            // Apply background color to rating columns
-            if (index === 3) td.style.backgroundColor = rating1.color;
-            if (index === 4) td.style.backgroundColor = rating2.color;
-            row.appendChild(td);
-        });
-        table.appendChild(row);
-
-        container.appendChild(table);
-    });
-}*/
-
-
-
-/*// Add data to the uploaded file
-document.getElementById('addToDatabase').addEventListener('click', function() {
-    event.preventDefault(); // Prevents the form from refreshing the page
-
-    const network = document.getElementById('networkName').value;
-    const branch = document.getElementById('branchName').value;
-    const section = document.getElementById('sectionName').value;
-    const unit = document.getElementById('unitName').value;
-
-    const network_area = document.getElementById('networkArea').value;
-    const branch_area = document.getElementById('branchArea').value;
-    const section_area = document.getElementById('sectionArea').value;
-    const unit_area = document.getElementById('unitArea').value;
-
-
-    const tableBody = document.querySelector('#dynamicTablePCI tbody');
-    const rows = tableBody.getElementsByTagName('tr');
-    const targetRow = rows[0]; // Get the specified row
-    const cells = targetRow.getElementsByTagName('td');
-
-    const pci = cells[1].textContent;
-    const pciRating1 = cells[2].textContent;
-    const pciRating2 = cells[3].textContent;
-
-    const newData = { network, branch, section, unit, network_area, branch_area, section_area, unit_area, pci, pciRating1, pciRating2 };
-
-    if (!uploadedFileName) {
-        alert('Please upload a file to add data.');
-        return;
-    }
-
-    // Add the new data to the fileData array
-    fileData.push(newData);
-    alert('Data added to the uploaded file.');
-});*/
 
 // Add data to the uploaded file
 document.getElementById('addToDatabase').addEventListener('click', function(event) {
@@ -1988,7 +1809,180 @@ document.getElementById('downloadExcel').addEventListener('click', function() {
 
 
 
+// Function to get unique values for a selected column
+function getUniqueValues(column) {
+    return [...new Set(fileData.map(row => row[column]))]; // Extract unique values
 
+}
+
+// Populate the column header dropdown
+function populateColumnDropdown() {
+    const filterColumnDropdown = document.getElementById('filterColumn');
+    filterColumnDropdown.innerHTML = '';
+
+    if (fileData.length > 0) {
+        const columns = Object.keys(fileData[0]); // Get headers from file data
+        columns.forEach(column => {
+            const option = document.createElement('option');
+            option.value = column;
+            option.textContent = column;
+            filterColumnDropdown.appendChild(option);
+        });
+    }
+}
+
+// Populate the unique values dropdown based on the selected column
+document.getElementById('filterColumn').addEventListener('change', function() {
+    const selectedColumn = this.value;
+    const uniqueValues = getUniqueValues(selectedColumn);
+    const filterValueDropdown = document.getElementById('filterValue');
+
+    filterValueDropdown.innerHTML = '';
+    uniqueValues.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        filterValueDropdown.appendChild(option);
+    });
+});
+
+
+// Apply the filter when "Filter" button is clicked
+document.getElementById('applyFilter').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+    const selectedColumn = document.getElementById('filterColumn').value;
+    const selectedValue = document.getElementById('filterValue').value;
+    //const operator = document.getElementById('filterOperator').value;
+    //const filterCondition = document.getElementById('filterTextbox').value;
+    
+    let filteredData = fileData.filter(row => {
+        // SQL-like filter conditions based on operator and value
+        const columnValue = row[selectedColumn];
+
+        operator = '=';
+        switch (operator) {
+            case '=':
+                return columnValue == selectedValue;
+            case '>':
+                return parseFloat(columnValue) > parseFloat(filterCondition);
+            case '<':
+                return parseFloat(columnValue) < parseFloat(filterCondition);
+            case 'AND': 
+                const [condition1, condition2] = filterCondition.split(' AND ');
+                return eval(`${columnValue} && ${condition2}`);
+            case 'OR':
+                const [cond1, cond2] = filterCondition.split(' OR ');
+                return eval(`${columnValue} || ${cond2}`);
+            default:
+                return true;  // If no operator is matched, return all rows
+        }
+    });
+
+    displayFilteredTable(filteredData);
+});
+
+// Function to display filtered table data
+function displayFilteredTable(data) {
+    const tableContainer = document.getElementById('fileContent'); //filteredTableContent, fileContent
+    tableContainer.innerHTML = ''; // Clear previous content
+
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+
+    // Create table headers
+    const headers = Object.keys(data[0]);
+    const headerRow = document.createElement('tr');
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    // Create table rows
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        headers.forEach(header => {
+            const td = document.createElement('td');
+            td.textContent = row[header];
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
+}
+
+// Call this function to populate dropdown after file upload
+//populateColumnDropdown();
+
+// Function to populate the dropdowns with unique values from fileData
+function populateDropdowns_Delete() {
+    const networkDropdown = document.getElementById('networkDropdown');
+    const branchDropdown = document.getElementById('branchDropdown');
+    const sectionDropdown = document.getElementById('sectionDropdown');
+    const unitDropdown = document.getElementById('unitDropdown');
+
+    // Clear existing options
+    networkDropdown.innerHTML = branchDropdown.innerHTML = sectionDropdown.innerHTML = unitDropdown.innerHTML = '';
+
+    // Populate dropdowns with unique values from fileData
+    const networks = [...new Set(fileData.map(item => item.network))];
+    const branches = [...new Set(fileData.map(item => item.branch))];
+    const sections = [...new Set(fileData.map(item => item.section))];
+    const units = [...new Set(fileData.map(item => item.unit))];
+
+    // Helper function to create dropdown options
+    const createOptions = (dropdown, values) => {
+        values.forEach(value => {
+            const option = document.createElement('option');
+            option.value = value;
+            option.textContent = value;
+            dropdown.appendChild(option);
+        });
+    };
+
+    createOptions(networkDropdown, networks);
+    createOptions(branchDropdown, branches);
+    createOptions(sectionDropdown, sections);
+    createOptions(unitDropdown, units);
+}
+
+// Call this function after loading fileData or when you need to repopulate dropdowns
+//populateDropdowns_Delete();
+
+// Function to delete a row based on dropdown selections
+document.getElementById('deleteButton').addEventListener('click', function() {
+    event.preventDefault(); // Prevents the form from refreshing the page
+    const selectedNetwork = document.getElementById('networkDropdown').value;
+    const selectedBranch = document.getElementById('branchDropdown').value;
+    const selectedSection = document.getElementById('sectionDropdown').value;
+    const selectedUnit = document.getElementById('unitDropdown').value;
+
+    // Find the index of the matching row
+    const indexToDelete = fileData.findIndex(row => {
+        return row.network === selectedNetwork &&
+               row.branch === selectedBranch &&
+               row.section === selectedSection &&
+               row.unit === selectedUnit;
+    });
+
+    // If a match is found, delete the row
+    if (indexToDelete !== -1) {
+        fileData.splice(indexToDelete, 1); // Remove the row from fileData
+        alert('Row deleted successfully.');
+
+        // Repopulate the dropdowns after deletion
+        populateDropdowns();
+    } else {
+        alert('No matching data found.');
+    }
+
+    // Optionally, refresh the displayed table or any UI elements to reflect the change
+});
 
 
 // Detect changes in the Unit Area input and update the density and deduct value automatically

@@ -33,6 +33,46 @@
                 <!-- Table content will be generated here -->
             </div>
 
+            <!-- Input for row number and button -->
+            <label for="rowNumber">Enter Row Number:</label>
+            <input type="number" id="rowNumber" min="1" placeholder="Row number">
+            <button id="extractRowData">Extract Row Data</button>
+
+
+            <div class="filter-container">
+                <label for="filterColumn">Column Header:</label>
+                <select id="filterColumn">
+                    <!-- Dynamic column headers will be inserted here -->
+                </select>
+            
+                <label for="filterValue">Unique Values:</label>
+                <select id="filterValue">
+                    <!-- Dynamic unique values based on selected column -->
+                </select>
+            
+                
+                <button id="applyFilter">Filter</button>
+            </div>
+
+            <div class="delete-section">
+                <label for="networkDropdown">Network:</label>
+                <select id="networkDropdown"></select>
+            
+                <label for="branchDropdown">Branch:</label>
+                <select id="branchDropdown"></select>
+            
+                <label for="sectionDropdown">Section:</label>
+                <select id="sectionDropdown"></select>
+            
+                <label for="unitDropdown">Unit:</label>
+                <select id="unitDropdown"></select>
+            
+                <button id="deleteButton">Delete</button>
+            </div>
+            
+
+
+
             <div class="dropdownContainer">
                 <!-- Dropdown 1: Contains headers -->
                 <label for="headerDropdown">Select Column:</label>
@@ -126,15 +166,6 @@
                 </table>
             </div>
 
-
-
-
-
-
-            <!-- Input for row number and button -->
-            <label for="rowNumber">Enter Row Number:</label>
-            <input type="number" id="rowNumber" min="1" placeholder="Row number">
-            <button id="extractRowData">Extract Row Data</button>
 
             
         </div>
