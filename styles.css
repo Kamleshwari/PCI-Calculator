@@ -51,12 +51,13 @@ input[type="text"], input[type="date"], input[type="time"], select {
 
 .survey-meta label {
     display: inline-block;
-    width: 100px;
+    width: 200px;
     margin-right: 10px;
 }
 
 .survey-meta input {
     margin-bottom: 10px;
+    width: 800px;
 }
 
 

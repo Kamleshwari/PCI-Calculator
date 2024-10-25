@@ -1671,6 +1671,8 @@ document.getElementById('valueDropdown').addEventListener('change', function() {
 
 document.getElementById('viewElementalPCI').addEventListener('click', function() {
     event.preventDefault(); // Prevents the form from refreshing the page
+    const Section_PCI_SD = [];
+    //const index = 0;
     
     // Function to generate table rows based on unique values
     function populateTable(data, tableId, columnKey) {
@@ -1685,6 +1687,11 @@ document.getElementById('viewElementalPCI').addEventListener('click', function()
             // Calculate total PCI based on unit area
             const totalUnitArea = filteredData.reduce((sum, item) => sum + parseFloat(item.unit_area), 0);
             const weightedPCI = filteredData.reduce((sum, item) => sum + (parseFloat(item.pci) * parseFloat(item.unit_area)), 0) / totalUnitArea;
+
+            if(columnKey == "section"){
+                Section_PCI_SD.push(weightedPCI);
+            }
+            
 
             // Get PCI ratings
             const rating1 = getASTMPCIRating(weightedPCI);
@@ -1706,9 +1713,29 @@ document.getElementById('viewElementalPCI').addEventListener('click', function()
     populateTable(fileData, 'networkTable', 'network');
     populateTable(fileData, 'branchTable', 'branch');
     populateTable(fileData, 'sectionTable', 'section');
+
+    //alert(calculateStandardDeviation(Section_PCI_SD).toFixed(2));
+    document.getElementById('Section_PCI_Elemental').innerHTML = `Standard deviation = ${calculateStandardDeviation(Section_PCI_SD).toFixed(2)}`;
+    //document.getElementById('Section_PCI_Elemental').textContent = `Section PCI (Standard deviation =)`;
+    //alert(calculateStandardDeviation(Section_PCI_SD).toFixed(2));
+    //Section_PCI_Elemental
+    
 });
 
+function calculateStandardDeviation(data) {
+    if (data.length === 0) return 0;  // Handle case where array is empty
 
+    // Step 1: Calculate the mean (average)
+    let mean = data.reduce((acc, curr) => acc + curr, 0) / data.length;
+
+    // Step 2: Calculate the variance
+    let variance = data.reduce((acc, curr) => acc + Math.pow(curr - mean, 2), 0) / (data.length-1);
+
+    // Step 3: Calculate the standard deviation (square root of variance)
+    let standardDeviation = Math.sqrt(variance);
+
+    return standardDeviation;
+}
 
 // Add data to the uploaded file
 document.getElementById('addToDatabase').addEventListener('click', function(event) {
