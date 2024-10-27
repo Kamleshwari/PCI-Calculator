@@ -1715,7 +1715,8 @@ document.getElementById('viewElementalPCI').addEventListener('click', function()
     populateTable(fileData, 'sectionTable', 'section');
 
     //alert(calculateStandardDeviation(Section_PCI_SD).toFixed(2));
-    document.getElementById('Section_PCI_Elemental').innerHTML = `Standard deviation = ${calculateStandardDeviation(Section_PCI_SD).toFixed(2)}`;
+    //document.getElementById('Section_PCI_Elemental').innerHTML = `Standard deviation = ${calculateStandardDeviation(Section_PCI_SD).toFixed(2)}`;
+    
     //document.getElementById('Section_PCI_Elemental').textContent = `Section PCI (Standard deviation =)`;
     //alert(calculateStandardDeviation(Section_PCI_SD).toFixed(2));
     //Section_PCI_Elemental
