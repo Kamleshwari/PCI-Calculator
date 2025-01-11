@@ -1,9 +1,9 @@
-let distressData = {}; // To hold data from Airfield_AC_Curve.xlsx
+let distressData = {}; // To hold data from Pavement_AC_Curve.xlsx
 let distressTypes = [];
 let severityLevels = [];
 
 // Fetch distress types and severity levels from text files
-/*fetch('Airfield_AC_Distress.txt')
+/*fetch('Pavement_AC_Distress.txt')
     .then(response => response.text())
     .then(data => {
         distressTypes = data.trim().split('\n');
@@ -11,23 +11,13 @@ let severityLevels = [];
     .catch(error => console.error('Error loading distress types:', error));*/
 
 distressTypes = [
-        "1-Alligator cracking",
-        "2-Bleeding",
-        "3-Block cracking",
-        "4-Corrugation",
-        "5-Depression",
-        "6-Jet blast",
-        "7-Joint Reflection",
-        "8-Long. & Trans. Cracking",
-        "9-Oil Spillage",
-        "10-Patching",
-        "11-Polished Aggregate",
-        "12-Raveling",
-        "13-Rutting",
-        "14-Shoving from PCC",
-        "15-Slippage Cracking",
-        "16-Swelling",
-        "17-Weathering"
+        "1-Transverse cracking",
+        "2-Block cracking",
+        "3-Edge cracking",
+        "4-Potholes",
+        "5-Rutting",
+        "6-Depression",
+        "7-Corrugation",
     ];
     
 function DisplayDistressTypes(distressTypes, columns){
@@ -138,10 +128,10 @@ function removeRow() {
 }
 
 
-/*// Function to load the Excel file (Airfield_AC_Curve.xlsx)
+/*// Function to load the Excel file (Pavement_AC_Curve.xlsx)
 async function handleExcelFile() {
     try {
-        const response = await fetch('Airfield_AC_Curve.xlsx');
+        const response = await fetch('Pavement_AC_Curve.xlsx');
         const data = await response.arrayBuffer();
         const workbook = XLSX.read(data, { type: 'array' });
 
@@ -156,31 +146,31 @@ async function handleExcelFile() {
     }
 }*/
 
-// Function to load the Excel file (Airfield_AC_Curve.xlsx)
+// Function to load the Excel file (Pavement_AC_Curve.xlsx)
 function ReadCurveData() {
     distressData = {
-        "1-Alligator cracking": [
-            { Density: 0.10, L: 7.45, M: 10.06, H: 16.01 },
-            { Density: 0.20, L: 8.94, M: 14.90, H: 21.79 },
-            { Density: 0.30, L: 11.17, M: 18.44, H: 25.14 },
-            { Density: 0.40, L: 12.85, M: 21.04, H: 27.93 },
-            { Density: 0.50, L: 14.90, M: 23.28, H: 29.98 },
-            { Density: 0.60, L: 16.39, M: 24.77, H: 32.03 },
-            { Density: 0.70, L: 17.69, M: 25.88, H: 33.33 },
-            { Density: 0.80, L: 18.99, M: 27.37, H: 34.82 },
-            { Density: 0.90, L: 20.11, M: 28.49, H: 36.13 },
-            { Density: 1.00, L: 21.04, M: 29.24, H: 37.24 },
-            { Density: 2.00, L: 27.37, M: 36.50, H: 45.07 },
-            { Density: 3.00, L: 30.91, M: 40.78, H: 50.09 },
-            { Density: 4.00, L: 33.71, M: 44.13, H: 54.00 },
-            { Density: 5.00, L: 36.13, M: 46.74, H: 57.54 },
-            { Density: 6.00, L: 38.18, M: 48.79, H: 60.71 },
-            { Density: 7.00, L: 39.66, M: 50.84, H: 63.31 },
-            { Density: 8.00, L: 40.97, M: 52.70, H: 65.74 },
-            { Density: 9.00, L: 42.27, M: 54.19, H: 68.34 },
-            { Density: 10.00, L: 43.39, M: 55.68, H: 70.58 },
-            { Density: 20.00, L: 50.84, M: 65.36, H: 83.24 },
-            { Density: 30.00, L: 55.87, M: 71.14, H: 89.57 },
+        "1-Transverse cracking": [
+            { Density: 0.10, L: 0.00, M: 0.00, H: 4.00 },
+            { Density: 0.20, L: 0.00, M: 1.00, H: 6.00 },
+            { Density: 0.30, L: 0.00, M: 2.00, H: 9.00 },
+            { Density: 0.40, L: 0.00, M: 3.80, H: 10.00 },
+            { Density: 0.50, L: 0.00, M: 4.00, H: 12.00 },
+            { Density: 0.60, L: 1.00, M: 5.90, H: 14.00 },
+            { Density: 0.70, L: 1.80, M: 6.00, H: 15.00 },
+            { Density: 0.80, L: 1.90, M: 7.00, H: 16.00 },
+            { Density: 0.90, L: 2.04, M: 8.00, H: 18.00 },
+            { Density: 1.00, L: 2.11, M: 9.00, H: 19.00 },
+            { Density: 2.00, L: 5.00, M: 14.00, H: 28.00 },
+            { Density: 3.00, L: 7.00, M: 18.00, H: 34.00 },
+            { Density: 4.00, L: 10.00, M: 20.00, H: 40.00 },
+            { Density: 5.00, L: 11.00, M: 22.00, H: 44.00 },
+            { Density: 6.00, L: 12.00, M: 24.00, H: 50.00 },
+            { Density: 7.00, L: 14.00, M: 26.00, H: 52.00 },
+            { Density: 8.00, L: 15.00, M: 28.00, H: 56.00 },
+            { Density: 9.00, L: 16.00, M: 30.00, H: 60.00 },
+            { Density: 10.00, L: 17.00, M: 32.00, H: 62.00 },
+            { Density: 20.00, L: 24.00, M: 40.00, H: 80.00 },
+            { Density: 30.00, L: 28.00, M: 44.00, H: 86.00 },
             { Density: 40.00, L: 59.78, M: 74.67, H: 93.11 },
             { Density: 50.00, L: 62.76, M: 77.28, H: 95.53 },
             { Density: 60.00, L: 65.55, M: 78.77, H: 97.39 },
@@ -189,35 +179,35 @@ function ReadCurveData() {
             { Density: 90.00, L: 72.07, M: 83.05, H: 100.00 },
             { Density: 100.00, L: 74.86, M: 84.17, H: 100.00 }
         ],
-        "2-Bleeding": [
+        "2-Block Cracking": [
             { Density: 0.1, L: 0, M: 0, H: 0 },
-            { Density: 0.2, L: 1.1, M: 1.1, H: 1.1 },
-            { Density: 0.3, L: 2.02, M: 2.02, H: 2.02 },
-            { Density: 0.4, L: 2.75, M: 2.75, H: 2.75 },
-            { Density: 0.5, L: 3.3, M: 3.3, H: 3.3 },
-            { Density: 0.6, L: 4.04, M: 4.04, H: 4.04 },
-            { Density: 0.7, L: 4.59, M: 4.59, H: 4.59 },
-            { Density: 0.8, L: 5.14, M: 5.14, H: 5.14 },
-            { Density: 0.9, L: 5.69, M: 5.69, H: 5.69 },
-            { Density: 1.0, L: 6.24, M: 6.24, H: 6.24 },
-            { Density: 2.0, L: 11.56, M: 11.56, H: 11.56 },
-            { Density: 3.0, L: 15.6, M: 15.6, H: 15.6 },
-            { Density: 4.0, L: 20.37, M: 20.37, H: 20.37 },
-            { Density: 5.0, L: 25.14, M: 25.14, H: 25.14 },
-            { Density: 6.0, L: 29.17, M: 29.17, H: 29.17 },
-            { Density: 7.0, L: 32.48, M: 32.48, H: 32.48 },
-            { Density: 8.0, L: 35.78, M: 35.78, H: 35.78 },
-            { Density: 9.0, L: 38.17, M: 38.17, H: 38.17 },
-            { Density: 10.0, L: 40.37, M: 40.37, H: 40.37 },
-            { Density: 20.0, L: 51.01, M: 51.01, H: 51.01 },
-            { Density: 30.0, L: 56.51, M: 56.51, H: 56.51 },
-            { Density: 40.0, L: 59.63, M: 59.63, H: 59.63 },
-            { Density: 50.0, L: 61.65, M: 61.65, H: 61.65 },
-            { Density: 60.0, L: 63.49, M: 63.49, H: 63.49 },
-            { Density: 70.0, L: 64.77, M: 64.77, H: 64.77 },
-            { Density: 80.0, L: 65.87, M: 65.87, H: 65.87 },
-            { Density: 90.0, L: 66.61, M: 66.61, H: 66.61 },
-            { Density: 100.0, L: 67.34, M: 67.34, H: 67.34 }
+            { Density: 0.2, L: 0, M: 0, H: 1.5 },
+            { Density: 0.3, L: 0, M: 0, H: 2.2 },
+            { Density: 0.4, L: 0, M: 0, H: 2.7 },
+            { Density: 0.5, L: 0, M: 0, H: 3.3 },
+            { Density: 0.6, L: 0, M: 1, H: 4 },
+            { Density: 0.7, L: 0, M: 1.5, H: 4.5 },
+            { Density: 0.8, L: 0, M: 2, H: 5 },
+            { Density: 0.9, L: 0, M: 2.5, H: 5.5 },
+            { Density: 1.0, L: 0, M: 3, H: 6 },
+            { Density: 2.0, L: 2, M: 6, H: 12 },
+            { Density: 3.0, L: 3, M: 15.6, H: 16 },
+            { Density: 4.0, L: 4, M: 8, H: 18 },
+            { Density: 5.0, L: 5, M: 10, H: 21 },
+            { Density: 6.0, L: 6, M: 11.5, H: 22 },
+            { Density: 7.0, L: 6.5, M: 12, H: 24 },
+            { Density: 8.0, L: 7, M: 14, H: 26 },
+            { Density: 9.0, L: 7.5, M: 15, H: 28 },
+            { Density: 10.0, L: 8, M: 16, H: 30 },
+            { Density: 20.0, L: 13, M: 22, H: 43 },
+            { Density: 30.0, L: 16, M: 27, H: 48 },
+            { Density: 40.0, L: 18, M: 31, H: 54 },
+            { Density: 50.0, L: 20, M: 44, H: 58 },
+            { Density: 60.0, L: 22, M: 46, H: 62 },
+            { Density: 70.0, L: 24, M: 48, H: 66 },
+            { Density: 80.0, L: 25, M: 50, H: 68 },
+            { Density: 90.0, L: 26, M: 52, H: 70 },
+            { Density: 100.0, L: 28, M: 53, H: 72 }
         ],
         "3-Block cracking": [
             { Density: 0.1, L: 5.06, M: 7.88, H: 9.93 },
