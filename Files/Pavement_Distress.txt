@@ -1,0 +1,7 @@
+1-Transverse cracking
+2-Block cracking
+3-Edge cracking
+4-Potholes
+5-Rutting
+6-Depression
+7-Corrugation
